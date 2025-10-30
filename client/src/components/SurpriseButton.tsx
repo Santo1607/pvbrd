@@ -11,7 +11,7 @@ export default function SurpriseButton() {
   useEffect(() => {
     // Create audio element with a royalty-free Happy Birthday melody
     // Using a public domain Happy Birthday instrumental
-    const audio = new Audio('https://mobcup.fm/ringtone/remo-happy-birthday-bgm-S6J2TSg8?utm_source=share&utm_medium=web&utm_name=detail');
+    const audio = new Audio('c:\Users\admin\Downloads\birthday-music.mp3');
     audio.loop = false;
     audio.volume = 0.5;
     audioRef.current = audio;
