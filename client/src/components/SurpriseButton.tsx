@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Gift, Volume2, VolumeX } from 'lucide-react';
 
@@ -6,27 +6,57 @@ export default function SurpriseButton() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showFireworks, setShowFireworks] = useState(false);
   const [fireworks, setFireworks] = useState<Array<{ id: number; x: number; y: number }>>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Create audio element with a royalty-free Happy Birthday melody
+    // Using a public domain Happy Birthday instrumental
+    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    audio.loop = false;
+    audio.volume = 0.5;
+    audioRef.current = audio;
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const handleClick = () => {
     console.log('Surprise button clicked!');
-    setIsPlaying(!isPlaying);
     
-    if (!showFireworks) {
-      setShowFireworks(true);
-      
-      const newFireworks = Array.from({ length: 15 }, (_, i) => ({
-        id: Date.now() + i,
-        x: Math.random() * 100,
-        y: Math.random() * 60 + 20,
-      }));
-      
-      setFireworks(newFireworks);
-      
-      setTimeout(() => {
-        setShowFireworks(false);
-        setFireworks([]);
-      }, 3000);
+    // Toggle music playback
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play().catch((error) => {
+          console.log('Audio playback failed:', error);
+          // Fallback: still show visual effects even if audio fails
+        });
+        setIsPlaying(true);
+      }
     }
+    
+    // Trigger fireworks
+    setShowFireworks(true);
+    
+    const newFireworks = Array.from({ length: 15 }, (_, i) => ({
+      id: Date.now() + i,
+      x: Math.random() * 100,
+      y: Math.random() * 60 + 20,
+    }));
+    
+    setFireworks(newFireworks);
+    
+    setTimeout(() => {
+      setShowFireworks(false);
+      setFireworks([]);
+    }, 3000);
   };
 
   return (

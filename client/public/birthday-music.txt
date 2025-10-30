@@ -1,0 +1,14 @@
+This is a placeholder for the birthday music file.
+
+To add your own birthday music:
+1. Find a royalty-free Happy Birthday song (MP3 format)
+2. Name it "birthday-music.mp3"
+3. Place it in the client/public folder
+4. The surprise button will automatically play it!
+
+Suggested sources for royalty-free music:
+- https://pixabay.com/music/
+- https://www.bensound.com/
+- https://incompetech.com/
+
+Or record your own personalized birthday message!
